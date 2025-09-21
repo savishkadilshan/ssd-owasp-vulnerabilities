@@ -20,7 +20,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware setup
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  methods: ["GET","POST","PUT","DELETE"],
+  allowedHeaders: ["Content-Type","Authorization","CSRF-Token"],
+  credentials: true
+}));
+
+
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
   bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
