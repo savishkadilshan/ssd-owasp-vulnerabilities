@@ -1,10 +1,10 @@
-// index.js or app.js
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
+const passport = require("passport");
 
-const connectToDatabase = require("./src/config/db"); // Import Singleton DB connection
+const connectToDatabase = require("./src/config/db"); 
 const userRouter = require("./src/routes/user");
 const appointmentRouter = require("./src/routes/appointment");
 const reportRouter = require("./src/routes/report");
@@ -15,11 +15,11 @@ const doctorRoutes = require("./src/routes/doctorRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
 const labAppointments = require("./src/routes/labappointment");
 const requireAuth = require("./src/middleware/requireAuth");
+require("./src/config/passport-setup");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware setup
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
@@ -27,7 +27,8 @@ app.use(
 );
 app.use(bodyParser.text({ limit: "200mb" }));
 
-// Route setup
+app.use(passport.initialize());
+
 app.use("/user", userRouter);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/services", serviceRoutes);
@@ -38,7 +39,6 @@ app.use("/patientprofile", requireAuth, profileRouter);
 app.use("/prescription", requireAuth, prescriptionRouter);
 app.use("/api/payment", requireAuth, paymentRouter);
 
-// Connect to the database and start the server
 connectToDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on Port: ${PORT}`);
