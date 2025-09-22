@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 
 const PrescriptionDetails = () => {
   const { id } = useParams();
@@ -54,14 +55,12 @@ const PrescriptionDetails = () => {
             </div>
           )}
           <img
-            src={prescription.image}
-            alt={prescription.patientName}
-            onLoad={handleImageLoaded} // Call this function when the image is loaded
-            className={`object-contain pt-8 m-4 h-80 w-96 ${
-              imageLoading ? "hidden" : ""
-            }`} // Hide image if it's loading
+            src={safeImgSrc(prescription.image)}
+            alt={prescription?.patientName || "Prescription"}
+            onLoad={handleImageLoaded}
+            className={`object-contain pt-8 m-4 h-80 w-96 ${imageLoading ? "hidden" : ""}`}
+            loading="lazy"
           />
-
           <div className="flex-1 md:ml-8">
             <p className="mb-2 text-2xl font-bold text-gray-600">
               Patient Name : {prescription.patientName}
