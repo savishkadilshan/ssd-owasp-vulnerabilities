@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 
 const {
   signupUser,
@@ -9,10 +10,22 @@ const {
   searchUsers,
   searchUser,
   searchHospitals,
+  googleLoginCallback,
 } = require("../controller/userController");
 const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
+
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
+  googleLoginCallback
+);
 
 router.post("/login", loginUser);
 

@@ -52,4 +52,5 @@ module.exports = {
   searchUsers,
   searchUserById,
   searchHospitals,
+  createToken, 
 };
