@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation  } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import Navbar from '../home/Navbar/Navbar';
-
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 const DoctorsPage = () => {
   const location = useLocation();
   const { hospitalId } = useParams();  // Get hospitalId from the URL
@@ -73,10 +73,11 @@ const DoctorsPage = () => {
               className="bg-white border border-gray-200 shadow-md rounded-lg p-6 w-64 cursor-pointer" 
             >
               {doctor.image && (
-                <img 
-                  src={doctor.image} 
-                  alt={doctor.doctorName} 
-                  className="w-full h-50 object-cover rounded-t-lg mb-4" 
+                <img
+                  src={safeImgSrc(doctor.image)}
+                  alt={doctor?.doctorName || "Doctor"}
+                  className="w-full h-50 object-cover rounded-t-lg mb-4"
+                  loading="lazy"
                   onClick={() => handleDoctorClick(doctor._id)}
                 />
               )}
@@ -113,12 +114,12 @@ const DoctorsPage = () => {
         className="bg-white border border-gray-200 shadow-md rounded-lg p-6 w-64 h-80" // Set a fixed height for the card
       >
         {service.image && (
-          <img 
-            src={service.image} 
-            alt={service.serviceName} 
-            className="w-full h-32 object-cover rounded-t-lg mb-4" // Set fixed height for image with object-cover
-            onClick={() => handleServiceClick(service._id)} // Add click handler for image
-
+          <img
+            src={safeImgSrc(service.image)}
+            alt={service?.serviceName || "Service"}
+            className="w-full h-32 object-cover rounded-t-lg mb-4"
+            loading="lazy"
+            onClick={() => handleServiceClick(service._id)}
           />
         )}
         <h3 className="text-xl font-semibold text-green-600 mb-2" onClick={() => handleServiceClick(service._id)} >{service.serviceName}</h3>
