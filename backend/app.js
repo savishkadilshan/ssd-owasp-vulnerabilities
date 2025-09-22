@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const passport = require("passport");
+const helmet = require('helmet');
 
 const connectToDatabase = require("./src/config/db"); 
 const userRouter = require("./src/routes/user");
@@ -20,6 +21,7 @@ require("./src/config/passport-setup");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
