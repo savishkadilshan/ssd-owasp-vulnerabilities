@@ -9,21 +9,21 @@ const searchAppointments = async (req, res) => {
     const appointments = await appointmentService.searchAppointments(userId);
     return res.status(200).json(appointments);
   } catch (error) {
-    return handleErrorResponse(res, 404, error.message);
+    return handleErrorResponse(res, 404, 'Appointment not found');
   }
 };
 
 const getAppointment = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return handleErrorResponse(res, 400, "Invalid appointment ID");
+    return handleErrorResponse(res, 400, 'Invalid appointment ID');
   }
 
   try {
     const appointment = await appointmentService.getAppointment(id);
     return res.status(200).json(appointment);
   } catch (error) {
-    return handleErrorResponse(res, 404, error.message);
+    return handleErrorResponse(res, 404, 'Appointment not found');
   }
 };
 
@@ -33,35 +33,35 @@ const createAppointment = async (req, res) => {
     const appointment = await appointmentService.createAppointment(appointmentData);
     return res.status(201).json(appointment);
   } catch (error) {
-    return handleErrorResponse(res, 500, error.message);
+    return handleErrorResponse(res, 500, 'Internal server error', error);
   }
 };
 
 const updateAppointment = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return handleErrorResponse(res, 400, "Invalid appointment ID");
+    return handleErrorResponse(res, 400, 'Invalid appointment ID');
   }
 
   try {
     const appointment = await appointmentService.updateAppointment(id, req.body);
     return res.status(200).json(appointment);
   } catch (error) {
-    return handleErrorResponse(res, 500, error.message);
+    return handleErrorResponse(res, 500, 'Internal server error', error);
   }
 };
 
 const deleteAppointment = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return handleErrorResponse(res, 400, "Invalid appointment ID");
+    return handleErrorResponse(res, 400, 'Invalid appointment ID');
   }
 
   try {
     await appointmentService.deleteAppointment(id);
     return res.status(200).json({ message: "Appointment deleted successfully" });
   } catch (error) {
-    return handleErrorResponse(res, 500, error.message);
+    return handleErrorResponse(res, 500, 'Internal server error', error);
   }
 };
 
@@ -75,7 +75,7 @@ const getAppointmentsByEmail = async (req, res) => {
     const appointments = await appointmentService.getAppointmentsByEmail(email);
     return res.status(200).json(appointments);
   } catch (error) {
-    return handleErrorResponse(res, 404, error.message);
+    return handleErrorResponse(res, 404, 'Appointment not found');
   }
 };
 
@@ -89,7 +89,7 @@ const getAppointmentsByDate = async (req, res) => {
     const appointments = await appointmentService.getAppointmentsByDate(date, hospitalId, doctorId);
     return res.status(200).json(appointments);
   } catch (error) {
-    return handleErrorResponse(res, 500, error.message);
+    return handleErrorResponse(res, 500, 'Internal server error', error);
   }
 };
 

@@ -8,7 +8,7 @@ const addService = async (req, res) => {
     const newService = await serviceService.addService(serviceData);
     return res.status(201).json(newService);
   } catch (error) {
-    return handleErrorResponse(res, 400, error.message);
+    return handleErrorResponse(res, 400, 'Invalid service ID');
   }
 };
 
@@ -17,7 +17,7 @@ const getServices = async (req, res) => {
     const services = await serviceService.getServicesByHospitalId(req.params.hospitalId);
     return res.status(200).json(services);
   } catch (error) {
-    return handleErrorResponse(res, 400, error.message);
+    return handleErrorResponse(res, 400, 'Invalid service ID');
   }
 };
 
@@ -31,7 +31,7 @@ const getServiceById = async (req, res) => {
     const service = await serviceService.getServiceById(id);
     return res.status(200).json(service);
   } catch (error) {
-    return handleErrorResponse(res, 404, error.message);
+    return handleErrorResponse(res, 404, 'service not found');
   }
 };
 
@@ -45,7 +45,7 @@ const updateService = async (req, res) => {
     const updatedService = await serviceService.updateService(id, req.body);
     return res.status(200).json(updatedService);
   } catch (error) {
-    return handleErrorResponse(res, 400, error.message);
+    return handleErrorResponse(res, 400, 'Invalid service ID');
   }
 };
 
@@ -59,7 +59,7 @@ const deleteService = async (req, res) => {
     await serviceService.deleteService(id);
     return res.status(200).json({ message: "Service deleted" });
   } catch (error) {
-    return handleErrorResponse(res, 400, error.message);
+    return handleErrorResponse(res, 400, 'Invalid service ID');
   }
 };
 
