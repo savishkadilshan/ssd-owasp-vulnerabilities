@@ -12,53 +12,54 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
+  },
+  googleId: {
+    type: String,
   },
   userType: {
     type: String,
     required: true,
   },
-  doctorName:{
-    type:String
+  doctorName: {
+    type: String,
   },
-  doctorSpecialization:{
-    type:String
+  doctorSpecialization: {
+    type: String,
   },
-  doctorExp:{
-    type:String
+  doctorExp: {
+    type: String,
   },
-  staffName:{
-    type:String
+  staffName: {
+    type: String,
   },
-  staffJob:{
-    type:String
+  staffJob: {
+    type: String,
   },
-  hospitalName:{
-    type:String
+  hospitalName: {
+    type: String,
   },
-  hospitalId:{
-    type:String
+  hospitalId: {
+    type: String,
   },
-  name:{
-    type:String
+  name: {
+    type: String,
   },
-  address:{
-    type:String
+  address: {
+    type: String,
   },
-  age:{
-    type:String
+  age: {
+    type: String,
   },
-  telephone:{
-    type:String
+  telephone: {
+    type: String,
   },
-  description:{
-    type:String
+  description: {
+    type: String,
   },
-
 });
 
-//static signup method
-userSchema.statics.signup = async function (email, password,userType) {
+userSchema.statics.signup = async function (email, password, userType) {
   if (!email || !password || !userType) {
     throw Error("All fields must be filled");
   }
@@ -67,8 +68,10 @@ userSchema.statics.signup = async function (email, password,userType) {
     throw Error("Email is not valid");
   }
 
-  if(!validator.isStrongPassword(password)){
-    throw Error('Password not strong enough{ minimum length 8 , at least 1 number, symbol ,lowercase and uppercase character }')
+  if (!validator.isStrongPassword(password)) {
+    throw Error(
+      "Password not strong enough{ minimum length 8 , at least 1 number, symbol ,lowercase and uppercase character }"
+    );
   }
 
   const exists = await this.findOne({ email });
@@ -80,15 +83,13 @@ userSchema.statics.signup = async function (email, password,userType) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash ,userType});
+  const user = await this.create({ email, password: hash, userType });
 
   return user;
 };
 
-//static login method
-userSchema.statics.login = async function(email,password){
-
-  if (!email || !password ) {
+userSchema.statics.login = async function (email, password) {
+  if (!email || !password) {
     throw Error("All fields must be filled");
   }
 
@@ -98,15 +99,19 @@ userSchema.statics.login = async function(email,password){
     throw Error("Incorrect Email");
   }
 
-  const match = await bcrypt.compare(password,user.password)
+  if (!user.password) {
+    throw new Error(
+      "This account was created using Google Sign-in. Please log in with Google."
+    );
+  }
 
-  if(!match){
-    throw Error('Incorrect password')
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    throw Error("Incorrect password");
   }
 
   return user;
-
-}
+};
 
 module.exports = mongoose.model("User", userSchema);
-

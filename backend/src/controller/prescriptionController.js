@@ -1,4 +1,5 @@
 const prescriptionService = require("../services/prescriptionService");
+const { handleErrorResponse } = require("../utils/errorUtil");
 
 const addPrescription = async (req, res) => {
   const { patientName, date, description, image, patientId } = req.body;
@@ -11,10 +12,9 @@ const addPrescription = async (req, res) => {
       image,
       patientId,
     });
-    res.status(200).json(prescription);
+    return res.status(200).json(prescription);
   } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    return handleErrorResponse(res, 500, "Unable to create prescription", error);  }
 };
 
 const getPrescriptions = async (req, res) => {
@@ -22,9 +22,12 @@ const getPrescriptions = async (req, res) => {
 
   try {
     const prescriptions = await prescriptionService.getPrescriptionsByPatientId(id);
-    res.status(200).json(prescriptions);
+    if (!prescriptions || prescriptions.length === 0) {
+      return handleErrorResponse(res, 404, "Prescriptions not found");
+    }
+    return res.status(200).json(prescriptions);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return handleErrorResponse(res, 500, "Unable to fetch prescription", error);
   }
 };
 
@@ -33,9 +36,12 @@ const getPrescription = async (req, res) => {
 
   try {
     const prescription = await prescriptionService.getPrescriptionById(id);
-    res.status(200).json(prescription);
+    if (!prescription) {
+      return handleErrorResponse(res, 404, "Prescription not found");
+    }
+    return res.status(200).json(prescription);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return handleErrorResponse(res, 500, "Unable to fetch prescription", error);
   }
 };
 
@@ -44,9 +50,12 @@ const getUserPrescriptions = async (req, res) => {
 
   try {
     const prescriptions = await prescriptionService.getUserPrescriptions(userId);
-    res.status(200).json(prescriptions);
+    if (!prescriptions || prescriptions.length === 0) {
+      return handleErrorResponse(res, 404, "Prescriptions not found");
+    }
+    return res.status(200).json(prescriptions);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return handleErrorResponse(res, 500, "Unable to fetch prescription", error);
   }
 };
 

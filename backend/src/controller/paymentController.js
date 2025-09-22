@@ -1,4 +1,5 @@
 const paymentService = require('../services/paymentService');
+const { handleErrorResponse } = require('../utils/errorUtil');
 
 // Add a new payment
 const addPayment = async (req, res) => {
@@ -11,8 +12,8 @@ const addPayment = async (req, res) => {
     res.status(201).json(newPayment);
     console.log("New payment successfully created");
   } catch (error) {
-    res.status(500).json({ error: "Unable to create payment" });
-    console.log("Unable to create payment");
+      return handleErrorResponse(res, 500, 'Unable to create payment', error);
+
   }
 };
 
@@ -28,8 +29,7 @@ const getPaymentById = async (req, res) => {
     res.status(200).json(payment);
     console.log("Payment fetched successfully");
   } catch (error) {
-    res.status(500).json({ error: "Unable to fetch payment" });
-    console.log("Unable to fetch payment");
+    return handleErrorResponse(res, 500, 'Unable to fetch payment', error)
   }
 };
 
@@ -41,8 +41,7 @@ const getAllPayments = async (req, res) => {
     res.status(200).json(payments);
     console.log("Payments fetched successfully");
   } catch (error) {
-    res.status(500).json({ error: "Unable to fetch payments" });
-    console.log("Unable to fetch payments");
+    return handleErrorResponse(res, 500, 'Unable to fetch payments', error);
   }
 };
 
@@ -57,8 +56,7 @@ const addServicePayment = async (req, res) => {
     res.status(201).json(newPayment);
     console.log("New payment successfully created");
   } catch (error) {
-    res.status(500).json({ error: "Unable to create payment" });
-    console.log("Unable to create payment");
+    return handleErrorResponse(res, 500, 'Unable to create service payment', error);
   }
 };
 
