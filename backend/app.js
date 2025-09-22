@@ -22,19 +22,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-// --- FIX: Secure Content Security Policy (CSP) for Production ---
-// This replaces your manual CSP middleware.
-// This policy is strict and removes 'unsafe-inline' and 'unsafe-eval',
-// which resolves the CSP alerts from your security scan.
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"], // Fallback for other fetch directives.
-      scriptSrc: ["'self'"], // Only allows scripts from your own domain.
-      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allows stylesheets from your domain and Google Fonts.
-      imgSrc: ["'self'", "data:", "blob:"], // Allows images from your domain, data URIs, and blobs.
-      connectSrc: ["'self'"], // Restricts AJAX, WebSockets, etc., to your own domain.
-      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allows fonts from your domain and Google Fonts.
+      scriptSrc: ["'self'"], // Only allows scripts from our own domain.
+      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allows stylesheets from our domain and Google Fonts.
+      imgSrc: ["'self'", "data:", "blob:"], // Allows images from our domain, data URIs, and blobs.
+      connectSrc: ["'self'"], // Restricts AJAX, WebSockets, etc., to our own domain.
+      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allows fonts from our domain and Google Fonts.
       objectSrc: ["'none'"], // Disallows plugins like <object>, <embed>, <applet>.
       baseUri: ["'self'"], // Restricts the URLs that can appear in a page's <base> element.
       formAction: ["'self'"], // Restricts the URLs which the forms can submit to.
