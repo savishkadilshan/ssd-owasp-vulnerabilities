@@ -18,7 +18,6 @@ const labAppointments = require("./src/routes/labappointment");
 const requireAuth = require("./src/middleware/requireAuth");
 require("./src/config/passport-setup");
 
-const helmet = require("helmet"); // Helmet library is imported
 const app = express();
 const PORT = process.env.PORT || 3000;
 

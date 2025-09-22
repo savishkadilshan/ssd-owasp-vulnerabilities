@@ -12,7 +12,7 @@ const googleLoginCallback = async (req, res) => {
     res.redirect(`http://localhost:5173/login?token=${token}&userType=${user.userType}&email=${user.email}`);
 
   } catch (error) {
-    res.status(400).json({ error: "Failed to authenticate with Google." });
+    return handleErrorResponse(res, 400, "Failed to authenticate with Google.", error);
   }
 };
 
