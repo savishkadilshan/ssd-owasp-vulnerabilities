@@ -10,7 +10,7 @@ import {ToastContainer} from "react-toastify"
 import firebase from "firebase/compat/app"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBmWoi4-ePux64gFfxws6lhaoVHvXy71xg",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "healthcard-3ff2d.firebaseapp.com",
   projectId: "healthcard-3ff2d",
   storageBucket: "healthcard-3ff2d.appspot.com",

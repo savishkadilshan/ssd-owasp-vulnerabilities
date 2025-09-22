@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 
 const ServiceDetailsPage = () => {
   const { serviceId } = useParams();
@@ -37,9 +38,10 @@ const ServiceDetailsPage = () => {
         <div className="flex items-center p-6">
           {service.image && (
             <img 
-              src={service.image} 
-              alt={service.serviceName} 
-              className="w-24 h-24 object-cover rounded-full border-2 border-gray-300 mr-6" 
+              src={safeImgSrc(service.image)} 
+              alt={service?.serviceName || "Service"} 
+              className="w-24 h-24 object-cover rounded-full border-2 border-gray-300 mr-6"
+              loading="lazy"
             />
           )}
           <div>

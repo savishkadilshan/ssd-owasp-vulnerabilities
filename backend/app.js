@@ -1,10 +1,11 @@
-// index.js or app.js
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
+const passport = require("passport");
+const helmet = require('helmet');
 
-const connectToDatabase = require("./src/config/db"); // Import Singleton DB connection
+const connectToDatabase = require("./src/config/db"); 
 const userRouter = require("./src/routes/user");
 const appointmentRouter = require("./src/routes/appointment");
 const reportRouter = require("./src/routes/report");
@@ -15,11 +16,30 @@ const doctorRoutes = require("./src/routes/doctorRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
 const labAppointments = require("./src/routes/labappointment");
 const requireAuth = require("./src/middleware/requireAuth");
+require("./src/config/passport-setup");
 
+const helmet = require("helmet"); // Helmet library is imported
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware setup
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Fallback for other fetch directives.
+      scriptSrc: ["'self'"], // Only allows scripts from our own domain.
+      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allows stylesheets from our domain and Google Fonts.
+      imgSrc: ["'self'", "data:", "blob:"], // Allows images from our domain, data URIs, and blobs.
+      connectSrc: ["'self'"], // Restricts AJAX, WebSockets, etc., to our own domain.
+      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allows fonts from our domain and Google Fonts.
+      objectSrc: ["'none'"], // Disallows plugins like <object>, <embed>, <applet>.
+      baseUri: ["'self'"], // Restricts the URLs that can appear in a page's <base> element.
+      formAction: ["'self'"], // Restricts the URLs which the forms can submit to.
+      frameAncestors: ["'none'"], // Prevents the page from being embedded in an iframe (clickjacking protection).
+    },
+  })
+);
+// --- End of CSP Fix ---
+
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
@@ -27,7 +47,8 @@ app.use(
 );
 app.use(bodyParser.text({ limit: "200mb" }));
 
-// Route setup
+app.use(passport.initialize());
+
 app.use("/user", userRouter);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/services", serviceRoutes);
@@ -38,7 +59,6 @@ app.use("/patientprofile", requireAuth, profileRouter);
 app.use("/prescription", requireAuth, prescriptionRouter);
 app.use("/api/payment", requireAuth, paymentRouter);
 
-// Connect to the database and start the server
 connectToDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on Port: ${PORT}`);
