@@ -1,5 +1,19 @@
 const userService = require("../services/userService");
-const User = require("../models/User"); // Ensure User model is imported for searchHospitals
+const User = require("../models/User");
+
+const googleLoginCallback = async (req, res) => {
+  try {
+    const user = req.user;
+    
+    const token = userService.createToken(user._id);
+
+    res.redirect(`http://localhost:5173/login?token=${token}&userType=${user.userType}&email=${user.email}`);
+
+  } catch (error) {
+    res.status(400).json({ error: "Failed to authenticate with Google." });
+  }
+};
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -72,11 +86,9 @@ const searchUser = async (req, res) => {
 
 const searchHospitals = async (req, res) => {
   try {
-    // Find staffAdmin users and select both email and hospitalName fields
     const hospitals = await User.find({ userType: "staffAdmin" }).select("email hospitalName");
     console.log(hospitals);
 
-    // Send the list of hospital names and emails
     res.send(hospitals);
   } catch (err) {
     console.log(err.message);
@@ -93,4 +105,5 @@ module.exports = {
   searchUsers,
   searchUser,
   searchHospitals,
+  googleLoginCallback,
 };
