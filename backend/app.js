@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const passport = require("passport");
+const helmet = require('helmet');
 
 const connectToDatabase = require("./src/config/db"); 
 const userRouter = require("./src/routes/user");
@@ -17,11 +18,8 @@ const labAppointments = require("./src/routes/labappointment");
 const requireAuth = require("./src/middleware/requireAuth");
 require("./src/config/passport-setup");
 
-const helmet = require("helmet"); // Helmet library is imported
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -40,7 +38,6 @@ app.use(
   })
 );
 // --- End of CSP Fix ---
-
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
