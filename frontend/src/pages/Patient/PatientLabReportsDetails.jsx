@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 
 const PatientLabReportsDetails = () => {
   const [reportFiles, setReportsFiles] = useState([]);
@@ -128,13 +129,10 @@ const PatientLabReportsDetails = () => {
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
                     <img
-                      src={repo.image}
-                      alt={repo.title}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                      }}
+                      src={safeImgSrc(repo.image)}
+                      alt={repo?.title || "Report"}
+                      style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                      loading="lazy"
                     />
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200">
@@ -144,10 +142,7 @@ const PatientLabReportsDetails = () => {
                     >
                       View
                     </button>
-                    <a
-                      href={repo.image} // Assuming the image URL is the report to download
-                      download
-                    >
+                    <a href={safeImgSrc(repo.image)} download rel="noopener noreferrer">
                       <button className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white">
                         Download
                       </button>
@@ -201,7 +196,7 @@ const PatientLabReportsDetails = () => {
               Close
             </button>
             <img
-              src={selectedImage}
+              src={safeImgSrc(selectedImage)}
               alt="Report"
               style={{ width: "500px", height: "500px", objectFit: "cover" }}
             />
