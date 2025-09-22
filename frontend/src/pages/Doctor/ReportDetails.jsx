@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
-import { safeImgSrc } from "../../utils/safeImgSrc"; 
+import DOMPurify from 'dompurify'; 
 
 const ReportDetails = () => {
   const { id } = useParams();
@@ -55,7 +55,7 @@ const ReportDetails = () => {
             </div>
           )}
           <img
-            src={safeImgSrc(report.image)}
+            src={DOMPurify.sanitize(report.image)}
             alt={report?.name || "Report"}
             onLoad={handleImageLoaded}
             className={`object-contain pt-8 m-4 h-80 w-96 ${imageLoading ? "hidden" : ""}`}
