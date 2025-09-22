@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 
 const DoctorDetailsPage = () => {
   const { doctorId } = useParams();
@@ -49,10 +50,11 @@ const DoctorDetailsPage = () => {
         {/* Doctor Image */}
         {doctor.image && (
           <img
-            src={doctor.image}
-            alt={doctor.doctorName}
+            src={safeImgSrc(doctor.image)}
+            alt={doctor?.doctorName || "Doctor"}
             className="w-48 h-48 object-cover rounded-full shadow-md"
-            style={{ objectPosition: "top" }} // Keep face visible
+            style={{ objectPosition: "top" }}
+            loading="lazy"
           />
         )}
 
