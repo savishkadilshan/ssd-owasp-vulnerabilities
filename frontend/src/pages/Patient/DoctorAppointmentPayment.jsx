@@ -38,6 +38,7 @@ import PaymentForm from "../../components/patient/PaymentForm";
 import CardDetailsForm from "../../components/patient/CardDetailsForm";
 import InsuranceDetailsForm from "../../components/patient/InsuranceDetailsForm";
 import PaymentSuccessMessage from "../../components/patient/PaymentSuccessMessage";
+import { API_BASE_URL } from '../../config/api';
 
 const DoctorAppointmentPayment = () => {
     const { id } = useParams();
@@ -60,7 +61,7 @@ const DoctorAppointmentPayment = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:3000/appointment/hospital-appointment/${id}`, {
+            fetch(`${API_BASE_URL}/appointment/hospital-appointment/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -112,7 +113,7 @@ const DoctorAppointmentPayment = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:3000/api/payment/add", {
+            const response = await fetch(`${API_BASE_URL}/api/payment/add`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

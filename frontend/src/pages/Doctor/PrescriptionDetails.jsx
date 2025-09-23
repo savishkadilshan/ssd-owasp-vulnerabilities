@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const PrescriptionDetails = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const PrescriptionDetails = () => {
 
   useEffect(() => {
     if (user && id) {
-      fetch(`http://localhost:3000/prescription/getPrescription/${id}`, {
+      fetch(`${API_BASE_URL}/prescription/getPrescription/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

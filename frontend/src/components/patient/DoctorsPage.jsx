@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation  } from 'react-router-dom'; // Impo
 import axios from 'axios';
 import Navbar from '../home/Navbar/Navbar';
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const DoctorsPage = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const DoctorsPage = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/doctors/${hospitalId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/doctors/${hospitalId}`);
         console.log('Full response:', response); // Log the full response for debugging
         setDoctors(response.data);
       } catch (error) {
@@ -26,7 +27,7 @@ const DoctorsPage = () => {
 
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/services/${hospitalId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/services/${hospitalId}`);
         console.log('Services response:', response); // Log services response for debugging
         setServices(response.data);
       } catch (error) {

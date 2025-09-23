@@ -17,6 +17,7 @@ import { IoArrowBackCircleSharp } from "react-icons/io5";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { Spinner } from "flowbite-react"; // Import Spinner
+import { API_BASE_URL } from '../../config/api';
 
 const AddReport = () => {
   const { id } = useParams();
@@ -94,7 +95,7 @@ const AddReport = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/report/addReport", {
+      const response = await fetch(`${API_BASE_URL}/report/addReport`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

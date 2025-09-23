@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from '../../config/api';
 
 const PatientAddAppointment = () => {
   const location = useLocation();
@@ -46,15 +47,15 @@ const PatientAddAppointment = () => {
         try {
           console.log("Checking appointments for date:", date);
           const response = await axios.get(
-            `http://localhost:3000/appointment/appointment-date`, // Updated endpoint
+            `${API_BASE_URL}/appointment/appointment-date`, // Updated endpoint
             {
               headers: {
                 Authorization: `Bearer ${user.token}`,
               },
               params: {
-                date: date, // Include date as a query parameter
-                hospitalId: doctor?.hospitalId, // Include hospitalId as a query parameter
-                doctorId: doctor?._id, // Include doctorId as a query parameter
+                date: date,
+                hospitalId: doctor?.hospitalId, 
+                doctorId: doctor?._id, 
               },
             }
           );
@@ -128,7 +129,7 @@ const PatientAddAppointment = () => {
       };
       // Make the POST request
       console.log("Adding appointment with data:", formData);
-      await axios.post("http://localhost:3000/appointment/add", formData, {
+      await axios.post(`${API_BASE_URL}/appointment/add`, formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",

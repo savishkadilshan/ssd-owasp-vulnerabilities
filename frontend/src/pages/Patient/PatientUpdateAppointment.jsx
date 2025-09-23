@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from '../../config/api';
 
 const PatientUpdateAppointment = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ const PatientUpdateAppointment = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:3000/appointment/hospital-appointment/${id}`, {
+      fetch(`${API_BASE_URL}/appointment/hospital-appointment/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +91,7 @@ const PatientUpdateAppointment = () => {
     if (appointmentDetails.doctorId) {
       axios
         .get(
-          `http://localhost:3000/api/doctors/doctor/${appointmentDetails.doctorId}`
+          `${API_BASE_URL}/api/doctors/doctor/${appointmentDetails.doctorId}`
         )
         .then((response) => {
           setDoctorInfo(response.data);
@@ -111,15 +112,15 @@ const PatientUpdateAppointment = () => {
         try {
           console.log("Checking appointments for date:", date);
           const response = await axios.get(
-            `http://localhost:3000/appointment/appointment-date`, // Updated endpoint
+            `${API_BASE_URL}/appointment/appointment-date`, // Updated endpoint
             {
               headers: {
                 Authorization: `Bearer ${user.token}`,
               },
               params: {
-                date: date, // Include date as a query parameter
-                hospitalId: appointmentDetails.hospitalId, // Include hospitalId as a query parameter
-                doctorId: appointmentDetails.doctorId, // Include doctorId as a query parameter
+                date: date,
+                hospitalId: appointmentDetails.hospitalId, 
+                doctorId: appointmentDetails.doctorId, 
               },
             }
           );
@@ -191,7 +192,7 @@ const PatientUpdateAppointment = () => {
       };
       // Make the POST request
       await axios.patch(
-        `http://localhost:3000/appointment/update/${id}`,
+        `${API_BASE_URL}/appointment/update/${id}`,
         formData,
         {
           headers: {
