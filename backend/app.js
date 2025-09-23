@@ -1,33 +1,36 @@
-require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const helmet = require("helmet");
+require("dotenv").config();
 const passport = require("passport");
+const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const connectToDatabase = require("./src/config/db");
-require("./src/config/passport-setup");
-
 const userRouter = require("./src/routes/user");
+const appointmentRouter = require("./src/routes/appointment");
+const reportRouter = require("./src/routes/report");
+const prescriptionRouter = require("./src/routes/prescriptionRoutes");
+const profileRouter = require("./src/routes/patientProfileRoute");
+const paymentRouter = require("./src/routes/payment");
 const doctorRoutes = require("./src/routes/doctorRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
-const appointmentRouter = require("./src/routes/appointment");
 const labAppointments = require("./src/routes/labappointment");
-const reportRouter = require("./src/routes/report");
-const profileRouter = require("./src/routes/patientProfileRoute");
-const prescriptionRouter = require("./src/routes/prescriptionRoutes");
-const paymentRouter = require("./src/routes/payment");
-
 const requireAuth = require("./src/middleware/requireAuth");
+require("./src/config/passport-setup");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.set("trust proxy", 1);
+
+// Hide stack/framework
 app.disable("x-powered-by");
 
-app.use(helmet());
+// --- Security headers first ---
+app.use(helmet()); // sensible defaults
+
+// Content Security Policy (tune as needed for your frontend)
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -44,8 +47,10 @@ app.use(
     },
   })
 );
+// Extra clickjacking protection (mirrors CSP frameAncestors)
 app.use(helmet.frameguard({ action: "deny" }));
 
+// --- CORS (adjust origins as needed) ---
 app.use(
   cors({
     origin: ["http://localhost:5173"],
