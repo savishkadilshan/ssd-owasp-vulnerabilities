@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { safeImgSrc } from "../../utils/safeImgSrc"; 
+import DOMPurify from 'dompurify'; 
 import { API_BASE_URL } from '../../config/api';
 
 const HospitalDetails = ({ hospitalId }) => {
@@ -55,7 +55,7 @@ const HospitalDetails = ({ hospitalId }) => {
               <p>Experience: {doctor.experience} years</p>
               {doctor.image && (
                 <img
-                  src={safeImgSrc(doctor.image)}
+                  src={DOMPurify.sanitize(doctor.image)}
                   alt={`Image of Dr. ${doctor.doctorName}`}
                   style={{ width: "100px", height: "100px" }}
                   loading="lazy"
@@ -81,7 +81,7 @@ const HospitalDetails = ({ hospitalId }) => {
               {/* Format price */}
               {service.image && (
                 <img
-                  src={safeImgSrc(service.image)}
+                  src={DOMPurify.sanitize(service.image)}
                   alt={`Image of ${service.serviceName}`}
                   style={{ width: "100px", height: "100px" }}
                   loading="lazy"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation  } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import Navbar from '../home/Navbar/Navbar';
-import { safeImgSrc } from "../../utils/safeImgSrc"; 
+import DOMPurify from 'dompurify'; 
 import { API_BASE_URL } from '../../config/api';
 
 const DoctorsPage = () => {
@@ -76,7 +76,7 @@ const DoctorsPage = () => {
             >
               {doctor.image && (
                 <img
-                  src={safeImgSrc(doctor.image)}
+                  src={DOMPurify.sanitize(doctor.image)}
                   alt={doctor?.doctorName || "Doctor"}
                   className="w-full h-50 object-cover rounded-t-lg mb-4"
                   loading="lazy"
@@ -117,7 +117,7 @@ const DoctorsPage = () => {
       >
         {service.image && (
           <img
-            src={safeImgSrc(service.image)}
+            src={DOMPurify.sanitize(service.image)}
             alt={service?.serviceName || "Service"}
             className="w-full h-32 object-cover rounded-t-lg mb-4"
             loading="lazy"
