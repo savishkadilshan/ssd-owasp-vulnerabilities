@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const DoctorDetailsPage = () => {
   const { doctorId } = useParams();
@@ -12,7 +13,7 @@ const DoctorDetailsPage = () => {
     const fetchDoctorDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/doctors/doctor/${doctorId}`
+          `${API_BASE_URL}/api/doctors/doctor/${doctorId}`
         );
         setDoctor(response.data);
         console.log("Doctor Details:", response.data);

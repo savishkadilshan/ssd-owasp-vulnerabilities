@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const ServiceDetailsPage = () => {
   const { serviceId } = useParams();
@@ -11,7 +12,7 @@ const ServiceDetailsPage = () => {
   useEffect(() => {
     const fetchServiceDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/services/service/${serviceId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/services/service/${serviceId}`);
         setService(response.data);
         console.log('Service Details:', response.data);
       } catch (error) {

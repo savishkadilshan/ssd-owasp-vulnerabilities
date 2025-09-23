@@ -18,7 +18,7 @@ const SideBar = () => {
         }}
         autoplay={{ // Enable autoplay
           delay: 2000, // Delay in ms between slides
-          disableOnInteraction: false, // Keeps autoplay running even after user interaction
+          disableOnInteraction: false, // Keeps autoplay running even after interaction
         }}
         modules={[Pagination, Autoplay]} // Include the Autoplay module
         className="mySwiper"

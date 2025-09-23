@@ -9,6 +9,7 @@ import PaymentSuccessMessage from "../../components/patient/PaymentSuccessMessag
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import logo from "../../images/logo.png";
+import { API_BASE_URL } from '../../config/api';
 
 const ServicePayment = () => {
     const { id } = useParams();
@@ -31,7 +32,7 @@ const ServicePayment = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:3000/labappointment/hospital-appointment/${id}`, {
+            fetch(`${API_BASE_URL}/labappointment/hospital-appointment/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -83,7 +84,7 @@ const ServicePayment = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:3000/api/payment/add-service", {
+            const response = await fetch(`${API_BASE_URL}/api/payment/add-service`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

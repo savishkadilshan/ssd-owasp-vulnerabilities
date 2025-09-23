@@ -2,7 +2,7 @@ const patientProfileService = require('../services/patientProfileService');
 const { handleErrorResponse } = require('../utils/errorUtil');
 
 const getProfileByEmail = async (req, res) => {
-  const { email } = req.params; // Get email from query parameters
+  const { email } = req.params;
   if (!email) {
     return handleErrorResponse(res, 400, "Email query parameter is required");
   }

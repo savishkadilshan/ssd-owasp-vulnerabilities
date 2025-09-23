@@ -13,6 +13,7 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { GrUserExpert } from "react-icons/gr";
 import { MdBedroomParent } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
+import { API_BASE_URL } from '../../config/api';
 
 const ViewAppointment = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ const ViewAppointment = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:3000/appointment/hospital-appointment/${id}`, {
+      fetch(`${API_BASE_URL}/appointment/hospital-appointment/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -8,6 +8,7 @@ import { FaUserMd } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import { API_BASE_URL } from '../../config/api';
 
 const EditDoctor = () => {
   const { id } = useParams();
@@ -41,7 +42,7 @@ const EditDoctor = () => {
     const fetchDoctor = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/doctors/doctor/${id}`
+          `${API_BASE_URL}/api/doctors/doctor/${id}`
         ); // Adjust to your API endpoint
         console.log(response.data);
         setDoctor(response.data);
@@ -102,7 +103,7 @@ const EditDoctor = () => {
       };
 
       await axios.put(
-        `http://localhost:3000/api/doctors/${id}`,
+        `${API_BASE_URL}/api/doctors/${id}`,
         doctorObj // Adjust to your API endpoint
       );
       toast.success("Doctor updated successfully!", {

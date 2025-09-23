@@ -8,6 +8,7 @@ import { FaUserMd } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import { API_BASE_URL } from '../../config/api';
 
 const AddDoctors = () => {
   const { user } = useContext(AuthContext); // Updated context
@@ -101,7 +102,7 @@ const AddDoctors = () => {
       doctorName: form.name.value.trim(),
       specialization: selectedSpecialty,
       experience: experience,
-      hospitalId: user.email, // Using user email as hospitalId
+      hospitalId: user.email,
       image: imageUrl,
       availability: availability,
       time: time,
@@ -113,7 +114,7 @@ const AddDoctors = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/doctors/add", {
+      const response = await fetch(`${API_BASE_URL}/api/doctors/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

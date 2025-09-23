@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from '../../config/api';
 
 const AllLabAppointment = () => {
   const [appointments, setAppointments] = useState([]);
@@ -15,7 +16,7 @@ const AllLabAppointment = () => {
   const fetchAppointments = () => {
     if (user && user.token) {
       axios
-        .get(`http://localhost:3000/labappointment/my-appointments/${user.email}`, {
+        .get(`${API_BASE_URL}/labappointment/my-appointments/${user.email}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -62,7 +63,7 @@ const AllLabAppointment = () => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       axios
-        .delete(`http://localhost:3000/labappointment/delete/${id}`, {
+        .delete(`${API_BASE_URL}/labappointment/delete/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
