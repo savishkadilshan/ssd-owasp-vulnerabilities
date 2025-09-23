@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const ServiceDetailsPage = () => {
   const { serviceId } = useParams();
@@ -10,7 +12,7 @@ const ServiceDetailsPage = () => {
   useEffect(() => {
     const fetchServiceDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/services/service/${serviceId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/services/service/${serviceId}`);
         setService(response.data);
         console.log('Service Details:', response.data);
       } catch (error) {
@@ -37,9 +39,10 @@ const ServiceDetailsPage = () => {
         <div className="flex items-center p-6">
           {service.image && (
             <img 
-              src={service.image} 
-              alt={service.serviceName} 
-              className="w-24 h-24 object-cover rounded-full border-2 border-gray-300 mr-6" 
+              src={DOMPurify.sanitize(service.image)}  
+              alt={service?.serviceName || "Service"} 
+              className="w-24 h-24 object-cover rounded-full border-2 border-gray-300 mr-6"
+              loading="lazy"
             />
           )}
           <div>

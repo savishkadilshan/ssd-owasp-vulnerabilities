@@ -10,7 +10,7 @@ const Reports = () => {
 
   const fetchPatients = () => {
     user &&
-      fetch("http://localhost:3000/user/users", {
+      fetch(`${API_BASE_URL}/user/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

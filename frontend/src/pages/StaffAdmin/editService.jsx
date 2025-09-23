@@ -8,6 +8,7 @@ import { FaConciergeBell } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import { API_BASE_URL } from '../../config/api';
 
 const UpdateService = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const UpdateService = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/services/service/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/services/service/${id}`);
         console.log(response.data);
         setService(response.data);
         setImageUrl(response.data.image || ""); // Load existing image URL
@@ -117,7 +118,7 @@ const UpdateService = () => {
     };
 
     try {
-      const response = await axios.put(`http://localhost:3000/api/services/${id}`, updatedService, {
+      const response = await axios.put(`${API_BASE_URL}/api/services/${id}`, updatedService, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

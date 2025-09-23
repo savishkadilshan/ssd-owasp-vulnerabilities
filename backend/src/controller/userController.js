@@ -1,4 +1,6 @@
 const userService = require("../services/userService");
+const { handleErrorResponse } = require("../utils/errorUtil");
+
 const User = require("../models/User");
 
 const googleLoginCallback = async (req, res) => {
@@ -10,10 +12,9 @@ const googleLoginCallback = async (req, res) => {
     res.redirect(`http://localhost:5173/login?token=${token}&userType=${user.userType}&email=${user.email}`);
 
   } catch (error) {
-    res.status(400).json({ error: "Failed to authenticate with Google." });
+    return handleErrorResponse(res, 400, "Failed to authenticate with Google.", error);
   }
 };
-
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -22,7 +23,7 @@ const loginUser = async (req, res) => {
     const result = await userService.loginUser(email, password);
     res.status(200).json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return handleErrorResponse(res, 400, "Invalid login credentials", error);
   }
 };
 
@@ -33,7 +34,7 @@ const signupUser = async (req, res) => {
     const result = await userService.signupUser(email, password, userType);
     res.status(200).json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return handleErrorResponse(res, 400, "Invalid login credentials", error);
   }
 };
 
@@ -42,7 +43,7 @@ const searchDoctors = async (req, res) => {
     const doctors = await userService.searchDoctors();
     res.send(doctors);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return handleErrorResponse(res, 500, "Unable to fetch doctors", error);
   }
 };
 
@@ -51,7 +52,7 @@ const searchStaffMembers = async (req, res) => {
     const staffMembers = await userService.searchStaffMembers();
     res.send(staffMembers);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return handleErrorResponse(res, 500, "Unable to fetch doctors", error);
   }
 };
 
@@ -60,7 +61,7 @@ const searchStaffAdmins = async (req, res) => {
     const staffAdmins = await userService.searchStaffAdmins();
     res.send(staffAdmins);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return handleErrorResponse(res, 500, "Unable to fetch doctors", error);
   }
 };
 
@@ -69,7 +70,7 @@ const searchUsers = async (req, res) => {
     const users = await userService.searchUsers();
     res.send(users);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return handleErrorResponse(res, 500, "Unable to fetch doctors", error);
   }
 };
 
@@ -80,7 +81,7 @@ const searchUser = async (req, res) => {
     const user = await userService.searchUserById(id);
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return handleErrorResponse(res, 500, "Unable to fetch user", error);
   }
 };
 
@@ -92,7 +93,7 @@ const searchHospitals = async (req, res) => {
     res.send(hospitals);
   } catch (err) {
     console.log(err.message);
-    res.status(500).send({ message: err.message });
+    return handleErrorResponse(res, 500, "Unable to fetch doctors", error);
   }
 };
 

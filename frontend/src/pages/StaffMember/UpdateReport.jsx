@@ -10,6 +10,8 @@ import { FaBoxArchive } from "react-icons/fa6";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { Spinner } from "flowbite-react";
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const UpdateReport = () => {
   const { user } = useAuthContext();
@@ -49,7 +51,7 @@ const UpdateReport = () => {
   const [selectedCategory, setSelectedCategory] = useState(category[0]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/report/ViewReport/${id}`, {
+    fetch(`${API_BASE_URL}/report/ViewReport/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +109,7 @@ const UpdateReport = () => {
       image: postImage
     };
 
-    fetch(`http://localhost:3000/report/updateReport/${id}`, {
+    fetch(`${API_BASE_URL}/report/updateReport/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -293,9 +295,10 @@ const UpdateReport = () => {
                   {postImage && (
                     <div className="mb-4">
                       <img
-                        src={postImage}
+                        src={DOMPurify.sanitize(postImage)}
                         alt="Current report"
                         className="object-cover w-20 h-20 rounded-md shadow-lg"
+                        loading="lazy"
                       />
                     </div>
                   )}

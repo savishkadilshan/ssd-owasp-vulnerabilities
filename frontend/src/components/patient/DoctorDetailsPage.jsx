@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const DoctorDetailsPage = () => {
   const { doctorId } = useParams();
@@ -11,7 +13,7 @@ const DoctorDetailsPage = () => {
     const fetchDoctorDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/doctors/doctor/${doctorId}`
+          `${API_BASE_URL}/api/doctors/doctor/${doctorId}`
         );
         setDoctor(response.data);
         console.log("Doctor Details:", response.data);
@@ -49,10 +51,11 @@ const DoctorDetailsPage = () => {
         {/* Doctor Image */}
         {doctor.image && (
           <img
-            src={doctor.image}
-            alt={doctor.doctorName}
+            src={DOMPurify.sanitize(doctor.image)}
+            alt={doctor?.doctorName || "Doctor"}
             className="w-48 h-48 object-cover rounded-full shadow-md"
-            style={{ objectPosition: "top" }} // Keep face visible
+            style={{ objectPosition: "top" }}
+            loading="lazy"
           />
         )}
 

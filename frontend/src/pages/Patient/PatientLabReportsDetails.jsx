@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const PatientLabReportsDetails = () => {
   const [reportFiles, setReportsFiles] = useState([]);
@@ -19,7 +21,7 @@ const PatientLabReportsDetails = () => {
   const fetchAppointments = () => {
     if (user && user.token) {
       axios
-        .get("http://localhost:3000/report/viewMyReports", {
+        .get(`${API_BASE_URL}/report/viewMyReports`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -128,13 +130,10 @@ const PatientLabReportsDetails = () => {
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
                     <img
-                      src={repo.image}
-                      alt={repo.title}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                      }}
+                      src={DOMPurify.sanitize(repo.image)}
+                      alt={repo?.title || "Report"}
+                      style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                      loading="lazy"
                     />
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200">
@@ -144,10 +143,7 @@ const PatientLabReportsDetails = () => {
                     >
                       View
                     </button>
-                    <a
-                      href={repo.image} // Assuming the image URL is the report to download
-                      download
-                    >
+                    <a href={DOMPurify.sanitize(repo.image)} download rel="noopener noreferrer">
                       <button className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white">
                         Download
                       </button>
@@ -201,7 +197,7 @@ const PatientLabReportsDetails = () => {
               Close
             </button>
             <img
-              src={selectedImage}
+              src={DOMPurify.sanitize(selectedImage)}
               alt="Report"
               style={{ width: "500px", height: "500px", objectFit: "cover" }}
             />

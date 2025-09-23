@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const HospitalDetails = ({ hospitalId }) => {
   const [doctors, setDoctors] = useState([]);
@@ -12,7 +14,7 @@ const HospitalDetails = ({ hospitalId }) => {
       try {
         setLoading(true); // Start loading
         const response = await axios.get(
-          `http://localhost:3000/api/hospital/${hospitalId}`,
+          `${API_BASE_URL}/api/hospital/${hospitalId}`,
           {
             headers: { Accept: "application/json" },
           }
@@ -53,9 +55,10 @@ const HospitalDetails = ({ hospitalId }) => {
               <p>Experience: {doctor.experience} years</p>
               {doctor.image && (
                 <img
-                  src={doctor.image}
+                  src={DOMPurify.sanitize(doctor.image)}
                   alt={`Image of Dr. ${doctor.doctorName}`}
                   style={{ width: "100px", height: "100px" }}
+                  loading="lazy"
                 />
               )}
             </li>
@@ -78,9 +81,10 @@ const HospitalDetails = ({ hospitalId }) => {
               {/* Format price */}
               {service.image && (
                 <img
-                  src={service.image}
+                  src={DOMPurify.sanitize(service.image)}
                   alt={`Image of ${service.serviceName}`}
                   style={{ width: "100px", height: "100px" }}
+                  loading="lazy"
                 />
               )}
             </li>

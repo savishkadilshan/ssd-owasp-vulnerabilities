@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const ReportDetails = () => {
   const { id } = useParams();
@@ -13,7 +15,7 @@ const ReportDetails = () => {
 
   useEffect(() => {
     if (user && id) {
-      fetch(`http://localhost:3000/report/viewReport/${id}`, {
+      fetch(`${API_BASE_URL}/report/viewReport/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,12 +56,11 @@ const ReportDetails = () => {
             </div>
           )}
           <img
-            src={report.image}
-            alt={report.name}
-            onLoad={handleImageLoaded} // Call this function when the image is loaded
-            className={`object-contain pt-8 m-4 h-80 w-96 ${
-              imageLoading ? "hidden" : ""
-            }`} // Hide image if it's loading
+            src={DOMPurify.sanitize(report.image)}
+            alt={report?.name || "Report"}
+            onLoad={handleImageLoaded}
+            className={`object-contain pt-8 m-4 h-80 w-96 ${imageLoading ? "hidden" : ""}`}
+            loading="lazy"
           />
 
           <div className="flex-1 md:ml-8">

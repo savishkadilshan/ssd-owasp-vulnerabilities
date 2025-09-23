@@ -3,6 +3,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import WeeklyAppointmentsChart from '../../components/staffMember/WeeklyAppointmentsChart';
+import { API_BASE_URL } from '../../config/api';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -12,7 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDoctorAppointments = () => {
       user &&
-        fetch("http://localhost:3000/appointment/hospital-appointments", {
+        fetch(`${API_BASE_URL}/appointment/hospital-appointments`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -35,7 +36,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchLabAppointments = () => {
       user &&
-        fetch("http://localhost:3000/labappointment/hospital-appointments", {
+        fetch(`${API_BASE_URL}/labappointment/hospital-appointments`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

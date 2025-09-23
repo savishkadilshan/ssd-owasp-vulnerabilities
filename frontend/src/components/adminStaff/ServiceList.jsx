@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext"; // Ensure this path is correct
 import ServiceCard from "./../adminStaff/ServiceCard"; // Adjust the import path as needed
 import { Spinner } from "flowbite-react"; // Optional spinner for loading state
+import { API_BASE_URL } from '../../config/api';
 
 const ServiceList = () => {
   const { user, loading: authLoading } = useContext(AuthContext); // Destructure loading state
@@ -20,8 +21,8 @@ const ServiceList = () => {
           return;
         }
 
-        const response = await fetch(
-          `http://localhost:3000/api/services/${user.email}`, // Adjust the URL if needed
+        const response = await fetch( 
+          `${API_BASE_URL}/api/services/${user.email}`,
           {
             method: "GET",
             headers: {

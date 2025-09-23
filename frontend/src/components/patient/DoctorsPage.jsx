@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation  } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import Navbar from '../home/Navbar/Navbar';
-import { safeImgSrc } from "../../utils/safeImgSrc"; 
+import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
+
 const DoctorsPage = () => {
   const location = useLocation();
   const { hospitalId } = useParams();  // Get hospitalId from the URL
@@ -15,7 +17,7 @@ const DoctorsPage = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/doctors/${hospitalId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/doctors/${hospitalId}`);
         console.log('Full response:', response); // Log the full response for debugging
         setDoctors(response.data);
       } catch (error) {
@@ -25,7 +27,7 @@ const DoctorsPage = () => {
 
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/services/${hospitalId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/services/${hospitalId}`);
         console.log('Services response:', response); // Log services response for debugging
         setServices(response.data);
       } catch (error) {
@@ -74,7 +76,7 @@ const DoctorsPage = () => {
             >
               {doctor.image && (
                 <img
-                  src={safeImgSrc(doctor.image)}
+                  src={DOMPurify.sanitize(doctor.image)}
                   alt={doctor?.doctorName || "Doctor"}
                   className="w-full h-50 object-cover rounded-t-lg mb-4"
                   loading="lazy"
@@ -115,7 +117,7 @@ const DoctorsPage = () => {
       >
         {service.image && (
           <img
-            src={safeImgSrc(service.image)}
+            src={DOMPurify.sanitize(service.image)}
             alt={service?.serviceName || "Service"}
             className="w-full h-32 object-cover rounded-t-lg mb-4"
             loading="lazy"

@@ -8,6 +8,7 @@ import { FaConciergeBell } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import { API_BASE_URL } from '../../config/api';
 
 const AddServices = () => {
   const { user } = useContext(AuthContext);
@@ -85,12 +86,12 @@ const AddServices = () => {
       serviceName: form.serviceName.value.trim(),
       description: form.description.value.trim(),
       price: price,
-      hospitalId: user.email, // Using user email as hospitalId
+      hospitalId: user.email,
       image: imageUrl, // Assuming you will handle the image upload separately
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/services/add", {
+      const response = await fetch(`${API_BASE_URL}/api/services/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
