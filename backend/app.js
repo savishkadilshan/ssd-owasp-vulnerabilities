@@ -3,9 +3,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const passport = require("passport");
-const helmet = require('helmet');
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
-const connectToDatabase = require("./src/config/db"); 
+const connectToDatabase = require("./src/config/db");
 const userRouter = require("./src/routes/user");
 const appointmentRouter = require("./src/routes/appointment");
 const reportRouter = require("./src/routes/report");
@@ -21,44 +22,61 @@ require("./src/config/passport-setup");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.disable('x-powered-by');
+app.set("trust proxy", 1);
 
-// Use all default Helmet headers first:
-app.use(helmet()); // X-Content-Type-Options, X-DNS-Prefetch-Control, Referrer-Policy, etc.
+// Hide stack/framework
+app.disable("x-powered-by");
 
+// --- Security headers first ---
+app.use(helmet()); // sensible defaults
+
+// Content Security Policy (tune as needed for your frontend)
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"], // Fallback for other fetch directives.
-      scriptSrc: ["'self'"], // Only allows scripts from our own domain.
-      styleSrc: ["'self'", "https://fonts.googleapis.com"], // Allows stylesheets from our domain and Google Fonts.
-      imgSrc: ["'self'", "data:", "blob:"], // Allows images from our domain, data URIs, and blobs.
-      connectSrc: ["'self'"], // Restricts AJAX, WebSockets, etc., to our own domain.
-      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allows fonts from our domain and Google Fonts.
-      objectSrc: ["'none'"], // Disallows plugins like <object>, <embed>, <applet>.
-      baseUri: ["'self'"], // Restricts the URLs that can appear in a page's <base> element.
-      formAction: ["'self'"], // Restricts the URLs which the forms can submit to.
-      frameAncestors: ["'none'"], // Prevents the page from being embedded in an iframe (clickjacking protection).
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
+      frameAncestors: ["'none'"],
     },
   })
 );
-// --- End of CSP Fix ---
-// Optional: also explicitly set frameguard (X-Frame-Options):
-app.use(helmet.frameguard({ action: 'deny' }));
+// Extra clickjacking protection (mirrors CSP frameAncestors)
+app.use(helmet.frameguard({ action: "deny" }));
 
-
-app.use(cors({
-  origin: ["http://localhost:5173"],
-  methods: ["GET","POST","PUT","DELETE"],
-  allowedHeaders: ["Content-Type","Authorization","CSRF-Token"],
-  credentials: true
-}));
+// --- CORS (adjust origins as needed) ---
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "CSRF-Token"],
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
-  bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
 );
 app.use(bodyParser.text({ limit: "200mb" }));
+
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(apiLimiter);
 
 app.use(passport.initialize());
 
@@ -72,8 +90,8 @@ app.use("/patientprofile", requireAuth, profileRouter);
 app.use("/prescription", requireAuth, prescriptionRouter);
 app.use("/api/payment", requireAuth, paymentRouter);
 
-app.get('/', (req, res) => {
-  res.send('API Working');
+app.get("/", (req, res) => {
+  res.send("API Working");
 });
 
 connectToDatabase().then(() => {
