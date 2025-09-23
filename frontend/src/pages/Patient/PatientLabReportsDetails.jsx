@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import DOMPurify from 'dompurify'; 
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 import { API_BASE_URL } from '../../config/api';
 
 const PatientLabReportsDetails = () => {
@@ -130,7 +130,7 @@ const PatientLabReportsDetails = () => {
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
                     <img
-                      src={DOMPurify.sanitize(repo.image)}
+                      src={safeImgSrc(repo.image)}
                       alt={repo?.title || "Report"}
                       style={{ width: "100px", height: "100px", objectFit: "cover" }}
                       loading="lazy"
@@ -197,7 +197,7 @@ const PatientLabReportsDetails = () => {
               Close
             </button>
             <img
-              src={DOMPurify.sanitize(selectedImage)}
+              src={safeImgSrc(selectedImage)}
               alt="Report"
               style={{ width: "500px", height: "500px", objectFit: "cover" }}
             />

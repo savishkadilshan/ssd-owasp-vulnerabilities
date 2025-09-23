@@ -10,7 +10,7 @@ import { FaBoxArchive } from "react-icons/fa6";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { Spinner } from "flowbite-react";
-import DOMPurify from 'dompurify'; 
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 import { API_BASE_URL } from '../../config/api';
 
 const UpdateReport = () => {
@@ -295,7 +295,7 @@ const UpdateReport = () => {
                   {postImage && (
                     <div className="mb-4">
                       <img
-                        src={DOMPurify.sanitize(postImage)}
+                        src={safeImgSrc(postImage)}
                         alt="Current report"
                         className="object-cover w-20 h-20 rounded-md shadow-lg"
                         loading="lazy"

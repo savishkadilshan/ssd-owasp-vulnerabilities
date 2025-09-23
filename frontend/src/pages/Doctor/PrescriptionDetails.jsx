@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
-import DOMPurify from 'dompurify'; 
+import { safeImgSrc } from "../../utils/safeImgSrc"; 
 import { API_BASE_URL } from '../../config/api';
 
 const PrescriptionDetails = () => {
@@ -56,7 +56,7 @@ const PrescriptionDetails = () => {
             </div>
           )}
           <img
-            src={DOMPurify.sanitize(prescription.image)}
+            src={safeImgSrc(prescription.image)}
             alt={prescription?.patientName || "Prescription"}
             onLoad={handleImageLoaded}
             className={`object-contain pt-8 m-4 h-80 w-96 ${imageLoading ? "hidden" : ""}`}
