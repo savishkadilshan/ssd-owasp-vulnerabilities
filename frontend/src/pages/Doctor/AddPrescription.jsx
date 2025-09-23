@@ -17,6 +17,7 @@ import { IoArrowBackCircleSharp } from "react-icons/io5";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { Spinner } from "flowbite-react"; // Import Spinner
+import { API_BASE_URL } from '../../config/api';
 
 const AddPrescription = () => {
   const { id } = useParams();
@@ -73,7 +74,7 @@ const AddPrescription = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/prescription/addPrescription", {
+      const response = await fetch(`${API_BASE_URL}/prescription/addPrescription`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

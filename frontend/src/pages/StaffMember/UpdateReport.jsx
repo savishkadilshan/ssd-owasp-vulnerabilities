@@ -11,6 +11,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { Spinner } from "flowbite-react";
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const UpdateReport = () => {
   const { user } = useAuthContext();
@@ -50,7 +51,7 @@ const UpdateReport = () => {
   const [selectedCategory, setSelectedCategory] = useState(category[0]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/report/ViewReport/${id}`, {
+    fetch(`${API_BASE_URL}/report/ViewReport/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +109,7 @@ const UpdateReport = () => {
       image: postImage
     };
 
-    fetch(`http://localhost:3000/report/updateReport/${id}`, {
+    fetch(`${API_BASE_URL}/report/updateReport/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

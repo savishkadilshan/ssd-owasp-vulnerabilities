@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom"; 
 import PatientIdentification from "../../components/patient/PatientIdentification";
+import { API_BASE_URL } from '../../config/api';
 
 const PatientDetails = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const PatientDetails = () => {
         description,
       };
       // Make the POST request
-      await axios.put("http://localhost:3000/patientprofile/add", formData, {
+      await axios.put(`${API_BASE_URL}/patientprofile/add`, formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",

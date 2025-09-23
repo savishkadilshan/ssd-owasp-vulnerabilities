@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from '../../config/api';
 
 const AddLabAppointment = () => {
   const location = useLocation();
@@ -78,7 +79,7 @@ const AddLabAppointment = () => {
       };
       // Make the POST request
       console.log("Adding lab appointment with data:", formData);
-      await axios.post("http://localhost:3000/labappointment/add", formData, {
+      await axios.post(`${API_BASE_URL}/labappointment/add`, formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import PatientImg from "../../images/patient.jpg";
+import { API_BASE_URL } from '../../config/api';
 
 const PatientDetails = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const PatientDetails = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:3000/user/user/${id}`, {
+      fetch(`${API_BASE_URL}/user/user/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

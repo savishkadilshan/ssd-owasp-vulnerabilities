@@ -3,6 +3,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/home/Navbar/Navbar';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config/api';
 
 const PatientHospitals = () => {
   const [hospitals, setHospitals] = useState([]);
@@ -11,7 +12,7 @@ const PatientHospitals = () => {
   useEffect(() => {
     const fetchHospitals = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/user/hospitals');
+        const response = await axios.get(`${API_BASE_URL}/user/hospitals`);
         setHospitals(response.data);
       } catch (error) {
         console.error('Error fetching hospitals:', error);

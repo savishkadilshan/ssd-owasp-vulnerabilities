@@ -4,6 +4,7 @@ import { Card, Button } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { API_BASE_URL } from '../../config/api';
 
 const ServiceCard = ({ service, onDelete = () => {} }) => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const ServiceCard = ({ service, onDelete = () => {} }) => {
   const handleDeleteClick = async () => {
     if (window.confirm("Are you sure you want to delete this service?")) {
       try {
-        await axios.delete(`http://localhost:3000/api/services/${service._id}`);
+        await axios.delete(`${API_BASE_URL}/api/services/${service._id}`);
         toast.success("Service deleted successfully!", {
           position: "bottom-right",
           theme: "colored",

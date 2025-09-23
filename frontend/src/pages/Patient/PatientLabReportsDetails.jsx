@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const PatientLabReportsDetails = () => {
   const [reportFiles, setReportsFiles] = useState([]);
@@ -20,7 +21,7 @@ const PatientLabReportsDetails = () => {
   const fetchAppointments = () => {
     if (user && user.token) {
       axios
-        .get("http://localhost:3000/report/viewMyReports", {
+        .get(`${API_BASE_URL}/report/viewMyReports`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

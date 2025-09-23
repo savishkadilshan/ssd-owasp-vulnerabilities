@@ -4,6 +4,7 @@ import { Card, Button } from "flowbite-react";
 import { useNavigate } from "react-router-dom"; 
 import { toast } from "react-toastify";
 import axios from "axios";
+import { API_BASE_URL } from '../../config/api';
 
 const DoctorCard = ({ doctor, onDelete = () => {} }) => { // Provide a default function for onDelete
   const navigate = useNavigate(); 

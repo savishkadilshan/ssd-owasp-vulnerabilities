@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from '../../config/api';
 
 const ViewReports = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const ViewReports = () => {
 
   const fetchReports = () => {
     user &&
-      fetch(`http://localhost:3000/report/viewReports/${id}`, {
+      fetch(`${API_BASE_URL}/report/viewReports/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
