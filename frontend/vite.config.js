@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    cors: false
+    cors: false,
+    headers: {
+      'X-Frame-Options': 'DENY',
+      'X-Content-Type-Options': 'nosniff',
+    },
   }
 })
