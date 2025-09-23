@@ -51,19 +51,14 @@ app.use(
 app.use(helmet.frameguard({ action: "deny" }));
 
 // --- CORS (adjust origins as needed) ---
-const allowedOrigins = ["http://localhost:5173"]; // add production URLs here
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error("Not allowed by CORS"));
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "CSRF-Token"],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-};
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "CSRF-Token"],
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
