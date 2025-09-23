@@ -21,6 +21,11 @@ require("./src/config/passport-setup");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.disable('x-powered-by');
+
+// Use all default Helmet headers first:
+app.use(helmet()); // X-Content-Type-Options, X-DNS-Prefetch-Control, Referrer-Policy, etc.
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -38,8 +43,17 @@ app.use(
   })
 );
 // --- End of CSP Fix ---
+// Optional: also explicitly set frameguard (X-Frame-Options):
+app.use(helmet.frameguard({ action: 'deny' }));
 
-app.use(cors());
+
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  methods: ["GET","POST","PUT","DELETE"],
+  allowedHeaders: ["Content-Type","Authorization","CSRF-Token"],
+  credentials: true
+}));
+
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(
   bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
@@ -57,6 +71,10 @@ app.use("/report", requireAuth, reportRouter);
 app.use("/patientprofile", requireAuth, profileRouter);
 app.use("/prescription", requireAuth, prescriptionRouter);
 app.use("/api/payment", requireAuth, paymentRouter);
+
+app.get('/', (req, res) => {
+  res.send('API Working');
+});
 
 connectToDatabase().then(() => {
   app.listen(PORT, () => {
