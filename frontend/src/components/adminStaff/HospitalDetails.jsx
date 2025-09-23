@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const HospitalDetails = ({ hospitalId }) => {
   const [doctors, setDoctors] = useState([]);
@@ -13,7 +14,7 @@ const HospitalDetails = ({ hospitalId }) => {
       try {
         setLoading(true); // Start loading
         const response = await axios.get(
-          `http://localhost:3000/api/hospital/${hospitalId}`,
+          `${API_BASE_URL}/api/hospital/${hospitalId}`,
           {
             headers: { Accept: "application/json" },
           }

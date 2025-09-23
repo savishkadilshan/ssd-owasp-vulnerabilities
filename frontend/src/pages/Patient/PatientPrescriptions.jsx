@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from '../../config/api';
 
 const PatientPrescriptions = () => {
   const [prescriptionFiles, setprescriptionFiles] = useState([]);
@@ -19,7 +20,7 @@ const PatientPrescriptions = () => {
   const fetchAppointments = () => {
     if (user && user.token) {
       axios
-        .get("http://localhost:3000/prescription/viewMyPrescription", {
+        .get(`${API_BASE_URL}/prescription/viewMyPrescription`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

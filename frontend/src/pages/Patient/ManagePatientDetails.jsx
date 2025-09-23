@@ -4,6 +4,7 @@ import Navbar from "../../components/home/Navbar/Navbar";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from '../../config/api';
 
 const UpdatePatientDetails = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const UpdatePatientDetails = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:3000/patientprofile/${user.email}`, {
+      fetch(`${API_BASE_URL}/patientprofile/${user.email}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +67,7 @@ const UpdatePatientDetails = () => {
       };
 
       await axios.patch(
-        `http://localhost:3000/patientprofile/update/${user.email}`,
+        `${API_BASE_URL}/patientprofile/update/${user.email}`,
         formData,
         {
           headers: {
@@ -88,7 +89,7 @@ const UpdatePatientDetails = () => {
     try {
         console.log("check pass email to delete section",email);
       await axios.delete(
-        "http://localhost:3000/patientprofile/delete",
+        `${API_BASE_URL}/patientprofile/delete`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

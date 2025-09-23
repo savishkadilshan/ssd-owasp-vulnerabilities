@@ -5,6 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
 import DOMPurify from 'dompurify'; 
+import { API_BASE_URL } from '../../config/api';
 
 const ReportDetails = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const ReportDetails = () => {
 
   useEffect(() => {
     if (user && id) {
-      fetch(`http://localhost:3000/report/viewReport/${id}`, {
+      fetch(`${API_BASE_URL}/report/viewReport/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

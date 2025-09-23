@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import dayjs from "dayjs";
 import AppointmentCard from "../../components/staffMember/AppointmentCard";
 import { Navigate, useNavigate } from "react-router";
+import { API_BASE_URL } from '../../config/api';
 
 const AppointmentsDisplay = () => {
   const { user } = useAuthContext();
@@ -13,7 +14,7 @@ const AppointmentsDisplay = () => {
   useEffect(() => {
     const fetchAppointments = () => {
       user &&
-        fetch("http://localhost:3000/appointment/hospital-appointments", {
+        fetch(`${API_BASE_URL}/appointment/hospital-appointments`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { API_BASE_URL } from '../../config/api';
 
 const PrescriptionUsers = () => {
   const { user } = useAuthContext();
@@ -10,7 +11,7 @@ const PrescriptionUsers = () => {
 
   const fetchPatients = () => {
     user &&
-      fetch("http://localhost:3000/user/users", {
+      fetch(`${API_BASE_URL}/user/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

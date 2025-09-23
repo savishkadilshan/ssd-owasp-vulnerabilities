@@ -13,7 +13,7 @@ const ReportDetails = () => {
 
   useEffect(() => {
     if (user && id) {
-      fetch(`http://localhost:3000/report/viewReport/${id}`, {
+      fetch(`${API_BASE_URL}/report/viewReport/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

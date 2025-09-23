@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from '../../config/api';
 
 const UpdateLabAppointment = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const UpdateLabAppointment = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:3000/labappointment/hospital-appointment/${id}`, {
+      fetch(`${API_BASE_URL}/labappointment/hospital-appointment/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

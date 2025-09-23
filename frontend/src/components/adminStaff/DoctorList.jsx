@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext"; // Ensure this path is correct
 import DoctorCard from "./../adminStaff/DoctorCard"; // Adjust the import path as needed
 import { Spinner } from "flowbite-react"; // Optional spinner for loading state
+import { API_BASE_URL } from '../../config/api';
 
 const DoctorList = () => {
   const { user, loading: authLoading } = useContext(AuthContext); // Destructure loading state
@@ -22,7 +23,7 @@ const DoctorList = () => {
         }
 
         const response = await fetch(
-          `http://localhost:3000/api/doctors/${user.email}`, // Adjust the URL if needed
+          `${API_BASE_URL}/api/doctors/${user.email}`, // Adjust the URL if needed
           {
             method: "GET",
             headers: {
