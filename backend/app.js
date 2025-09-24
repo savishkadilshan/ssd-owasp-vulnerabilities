@@ -30,7 +30,7 @@ app.disable("x-powered-by");
 // --- Security headers first ---
 app.use(helmet()); // sensible defaults
 
-// Content Security Policy (tune as needed for your frontend)
+// Content Security Policy
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
