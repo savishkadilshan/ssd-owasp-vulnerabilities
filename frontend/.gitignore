@@ -1,2 +1,7 @@
 node_modules
+.hg/
+.hg/
+.bzr/
+_darcs/
+BitKeeper/
 
