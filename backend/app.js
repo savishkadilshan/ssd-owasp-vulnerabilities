@@ -41,6 +41,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  if (req.url.startsWith("/.")) {
+    return res.status(403).send("Access denied");
+  }
+  next();
+});
+
 // Content Security Policy (tune as needed for your frontend)
 app.use(
   helmet.contentSecurityPolicy({
