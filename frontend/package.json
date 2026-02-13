@@ -15,7 +15,7 @@
     "@mui/material": "^6.1.2",
     "@reduxjs/toolkit": "^2.2.7",
     "apexcharts": "^3.54.0",
-    "axios": "^1.12.2",
+    "axios": "^1.13.5",
     "chart.js": "^4.4.4",
     "dayjs": "^1.11.13",
     "dompurify": "^3.2.7",
